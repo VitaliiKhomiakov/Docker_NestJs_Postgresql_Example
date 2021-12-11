@@ -1,0 +1,50 @@
+version: '3.3'
+
+services:
+  api:
+    build: ./api/app
+    command: npm start
+    restart: unless-stopped
+    networks:
+      - server-net
+    ports:
+      - '3000:3000'
+    environment:
+      - PORT=3000
+      - DB_USER=postgres
+      - DB_PASSWORD=900800
+      - DB_NAME=mytest
+      - DB_HOST=postgres
+#      - DB_HOST=172.20.0.2
+    depends_on:
+      - db
+  db:
+    image: postgres:14.1-alpine3.15
+    container_name: postgres
+    networks:
+      - server-net
+    environment:
+      POSTGRES_HOST: localhost
+      POSTGRES_USER: vitaly
+      POSTGRES_PASSWORD: 900800
+      POSTGRES_DB: mytest
+#    volumes:
+#      - database:/var/lib/postgresql
+    ports:
+      - '5433:5432'
+
+  adminer:
+    image: adminer
+    restart: always
+    networks:
+      - server-net
+    depends_on:
+      - db
+    ports:
+      - '8080:8080'
+networks:
+  server-net:
+    driver: bridge
+
+#volumes:
+#  database:
