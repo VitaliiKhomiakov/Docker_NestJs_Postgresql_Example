@@ -13,6 +13,10 @@ Steps:
 7. sudo apt install docker-ce
 8. sudo systemctl status docker
 
+## Do not forget about Git-Submodule
+- git submodule init
+- git submodule update
+
 ## Docker-Compose
 1. sudo apt  install docker-compose
 
